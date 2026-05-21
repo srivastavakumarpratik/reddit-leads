@@ -238,6 +238,3 @@ SEARCH_SORT = "new"
 SEARCH_TIME_FILTER = "day"
 SEARCH_LIMIT_PER_QUERY = 25
 RATE_LIMIT_DELAY_SECONDS = 1.5
-
-# PRAW user agent (username injected at runtime)
-USER_AGENT_TEMPLATE = "python:betterbi-reddit-leads:v1.0 (by /u/{username})"

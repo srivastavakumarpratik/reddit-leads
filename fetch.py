@@ -28,7 +28,6 @@ from config import (
     SEARCH_TIME_FILTER,
     SEARCH_LIMIT_PER_QUERY,
     RATE_LIMIT_DELAY_SECONDS,
-    USER_AGENT_TEMPLATE,
 )
 
 # ─────────────────────────────────────────────
@@ -147,13 +146,10 @@ def get_priority(
 # ─────────────────────────────────────────────
 
 def create_reddit_client() -> praw.Reddit:
-    username = os.environ["REDDIT_USERNAME"]
     return praw.Reddit(
         client_id=os.environ["REDDIT_CLIENT_ID"],
         client_secret=os.environ["REDDIT_CLIENT_SECRET"],
-        username=username,
-        password=os.environ["REDDIT_PASSWORD"],
-        user_agent=USER_AGENT_TEMPLATE.format(username=username),
+        user_agent=os.environ.get("REDDIT_USER_AGENT", "betterbi-reddit-leads:v1.0"),
     )
 
 
