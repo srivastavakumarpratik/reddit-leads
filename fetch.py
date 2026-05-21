@@ -147,14 +147,24 @@ def get_priority(
 # ─────────────────────────────────────────────
 
 def create_reddit_client() -> praw.Reddit:
-    username = os.environ["REDDIT_USERNAME"]
-    return praw.Reddit(
-        client_id=os.environ["REDDIT_CLIENT_ID"],
-        client_secret=os.environ["REDDIT_CLIENT_SECRET"],
-        username=username,
-        password=os.environ["REDDIT_PASSWORD"],
-        user_agent=USER_AGENT_TEMPLATE.format(username=username),
+    client_id = os.environ["REDDIT_CLIENT_ID"]
+    client_secret = os.environ["REDDIT_CLIENT_SECRET"]
+    username = os.environ.get("REDDIT_USERNAME")
+    password = os.environ.get("REDDIT_PASSWORD")
+    user_agent = os.environ.get(
+        "REDDIT_USER_AGENT",
+        USER_AGENT_TEMPLATE.format(username=username or "anonymous"),
     )
+
+    kwargs = dict(client_id=client_id, client_secret=client_secret, user_agent=user_agent)
+    if username and password:
+        kwargs["username"] = username
+        kwargs["password"] = password
+
+    reddit = praw.Reddit(**kwargs)
+    if not (username and password):
+        reddit.read_only = True
+    return reddit
 
 
 def fetch_leads() -> list[dict]:
