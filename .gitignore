@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 .env
 today_leads.json
+reddit_to_notion.py
